@@ -7,7 +7,7 @@ const port = 3000;
 
 app.use(cors());
 
-app.get('/ques', async (req, res) => {
+app.get('/prompt', async (req, res) => {
   try {
     const t = req.query.t
     const response = await axios.get(`https://sandipbaruwal.onrender.com/fluxdev?prompt=${t}&ratio=${ratio}`);
