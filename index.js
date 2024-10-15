@@ -15,13 +15,17 @@ app.get('/generate', async (req, res) => {
       return res.status(400).json({ error: 'Prompt is required' });
     }
 
-    const response = await axios.get(`https://ashbina.onrender.com/gen2?prompt=${encodeURIComponent(prompt)}`);
+    const response = await axios({
+      method: 'get',
+      url: `https://ashbina.onrender.com/gen2?prompt=${encodeURIComponent(prompt)}`,
+      responseType: 'arraybuffer'
+    });
 
-    console.log('API Response:', response.data);
+    res.set('Content-Type', 'image/jpeg');
+    res.send(Buffer.from(response.data, 'binary'));
 
-    res.json(response.data);
   } catch (error) {
-    console.error(error);
+    console.error('Error fetching data from the API:', error);
     res.status(500).json({ error: 'Error fetching data from the API' });
   }
 });
