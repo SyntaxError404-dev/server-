@@ -7,21 +7,19 @@ const port = 3000;
 
 app.use(cors());
 
-const defaultRatio = '4:14';
-app.get('/prompt', async (req, res) => {
+app.get('/generate', async (req, res) => {
   try {
-    const t = req.query.t;
-    const ratio = req.query.ratio || defaultRatio;
+    const prompt = req.query.prompt;
 
-    const response = await axios.get(`https://sandipbaruwal.onrender.com/fluxdev?prompt=${encodeURIComponent(t)}&ratio=${encodeURIComponent(ratio)}`);
-    
-    console.log('API Response:', response.data); 
-
-    if (response.data && response.data.result) {
-      res.json({ imageUrl: response.data.result });
-    } else {
-      res.status(404).json({ error: 'Image not found in the response' });
+    if (!prompt) {
+      return res.status(400).json({ error: 'Prompt is required' });
     }
+
+    const response = await axios.get(`https://ashbina.onrender.com/gen2?prompt=${encodeURIComponent(prompt)}`);
+
+    console.log('API Response:', response.data);
+
+    res.json(response.data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error fetching data from the API' });
