@@ -14,7 +14,7 @@ app.get('/ques', async (req, res) => {
 
     const response = await axios.get(`https://sandipbaruwal.onrender.com/fluxdev?prompt=${t}&ratio=${ratio}`);
 
-    res.json(response.data.answer);
+    res.json(response.data); // Return the complete response data
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error fetching data from the API' });
