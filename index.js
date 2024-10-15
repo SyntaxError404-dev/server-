@@ -9,8 +9,10 @@ app.use(cors());
 
 app.get('/ques', async (req, res) => {
   try {
-    const t = req.query.t
-    const response = await axios.get(`https://sandipbaruwal.onrender.com/fluxdev?prompt=${t}`);
+    const t = req.query.t;
+    const ratio = req.query.ratio || '1:1'; // Default to '1:1' if no ratio is provided
+
+    const response = await axios.get(`https://sandipbaruwal.onrender.com/fluxdev?prompt=${t}&ratio=${ratio}`);
 
     res.json(response.data.answer);
   } catch (error) {
@@ -19,4 +21,6 @@ app.get('/ques', async (req, res) => {
   }
 });
 
-app.listen(port, () => {});
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
